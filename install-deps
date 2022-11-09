@@ -2,3 +2,7 @@
 pip3 install qrcode
 pip3 install Pillow
 pip3 install python-dotenv
+pip3 install fastapi
+pip3 install "uvicorn[standard]"
+pip3 install psycopg2-binary
+pip3 install psycopg2
