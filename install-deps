@@ -1,0 +1,4 @@
+#!/bin/bash
+pip3 install qrcode
+pip3 install Pillow
+pip3 install python-dotenv
