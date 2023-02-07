@@ -4,8 +4,40 @@ Backend repo for the games hosted by ESW in 2022/2023
 
 # Setup :gear:
 
-Clone the repo, and change the current directory to 'game-backend-2022'.
-To install all the dependencies and setup the database, run the install script by using: <code>./install-script </code>
+First, clone the repo and change the current directory to 'game-backend-2022'.
+
+This project needs to run a virtual environment locally. Use the following command to do this:
+
+### Virtual environment creation :toolbox:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+If you would like to exit the virtual environment, enter the following command:
+
+```bash
+deactivate
+```
+
+### Installing dependencies :hammer:
+
+To install all the dependencies and setup the database, run the following:
+
+```bash
+python3 -m pip install -r requirements.txt
+```
+:warning: currently no command to setup db... :warning:
+
+# Execution :star:
+
+To run the API, simply use the following command in the project's root:
+<code>uvicorn main:app --reload</code>
+
+It is important to note that the database needs to be hooked up to a .env file. You can obtain this file from either:
+- Matthew Szurkowski
+- Ian McKechnie
+
 
 # How it works... :screwdriver:
 

@@ -1,0 +1,7 @@
+# Our deps :)
+qrcode==7.3.1
+fastapi==0.79.0
+uvicorn==0.18.2
+Pillow==9.0.1
+python-dotenv==0.15.0
+psycopg2-binary==2.9.5
