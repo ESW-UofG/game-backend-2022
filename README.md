@@ -32,7 +32,10 @@ python3 -m pip install -r requirements.txt
 # Execution :star:
 
 To run the API, simply use the following command in the project's root:
-<code>uvicorn main:app --reload</code>
+
+```bash
+uvicorn main:app --reload
+```
 
 It is important to note that the database needs to be hooked up to a .env file. You can obtain this file from either:
 - Matthew Szurkowski
