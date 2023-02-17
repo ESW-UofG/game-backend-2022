@@ -5,7 +5,6 @@ import os
 from dotenv import load_dotenv
 from cryptography.fernet import Fernet
 
-
 #Loads .env variables
 load_dotenv()
 

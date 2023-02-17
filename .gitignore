@@ -132,3 +132,5 @@ dmypy.json
 # Ignore .env and qr-codes directory
 .env
 /qr-codes
+
+dynamoDB.conf
