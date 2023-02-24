@@ -1,27 +1,31 @@
 from fastapi import FastAPI
-import psycopg2
-from dotenv import load_dotenv
 import os
-
-#Loads .env variables
-load_dotenv()
+from configparser import ConfigParser
+import time
 
 app = FastAPI()
-conn = psycopg2.connect(database=os.environ.get('DBNAME'),
-                        host=os.environ.get('HOST'),
-                        user=os.environ.get('USER_PSQL'),
-                        password=os.environ.get('PASSWORD'),
-                        port=os.environ.get('PORT'))
 
-cursor = conn.cursor()
-print(cursor.execute("SELECT * FROM players"))
 
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
 
-@app.post("/hash/{item_id}")
-def store_hash(item_id: int):
-     # Stores the hash provided by the QR code generator
+@app.post("/hash/{hash_id}/{email}/{name}/{points}")
+def store_hash(hash_id: str, email: str, name: str, points: int):
+    # Stores the hash provided by the QR code generator
 
-    return {"item_id": item_id}
+    # CHECK HASH BOTO3 GOES HERE
+
+    # UPDATE PLAYER TABLE
+    print(hash_id)
+    return {"hash_id": hash_id, "email": email, "name": name, "points": points }
+
+@app.get("/getScores")
+def get_scores():
+    # GET SCORES FROM BOTO3
+
+    # RETURN THE TOP 5 VALUES (MANIPULATE THE PANDAS DF)
+
+    # RETURN AS JSON
+    return {}
+

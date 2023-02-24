@@ -128,6 +128,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# conf files
+*.conf
+
 
 # Ignore .env and qr-codes directory
 .env
