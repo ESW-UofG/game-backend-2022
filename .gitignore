@@ -137,3 +137,5 @@ dmypy.json
 /qr-codes
 
 dynamoDB.conf
+
+testManager.py

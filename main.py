@@ -2,6 +2,11 @@ from fastapi import FastAPI
 import os
 from configparser import ConfigParser
 import time
+from dotenv import load_dotenv
+import awsManager
+
+load_dotenv()
+SECRET_KEY = os.getenv('SECRET')
 
 app = FastAPI()
 
@@ -10,15 +15,46 @@ app = FastAPI()
 def read_root():
     return {"Hello": "World"}
 
-@app.post("/hash/{hash_id}/{email}/{name}/{points}")
-def store_hash(hash_id: str, email: str, name: str, points: int):
+@app.post("/storeHash/{hash_id}/{key}")
+def store_hash(hash_id: str, key: str):
+    global SECRET_KEY
     # Stores the hash provided by the QR code generator
 
-    # CHECK HASH BOTO3 GOES HERE
+    # We need to add a secret to this. Maybe through .env?
+    # Basically, we need to add some checking because this could easily be hacked
+    # So, we can store the hash only if the secrets match which only
+    # Maintainers will have access 2 (Matthew, Ian, Martina)
+    # If the secret checks out, then the hash will be stored.
+    status = ""
 
-    # UPDATE PLAYER TABLE
+    if (key!=SECRET_KEY):
+        status = "Not_Stored"
+    else:
+        awsManager.insertHashItem(hash_id)
+        status = "Stored"
+    
+    return {"status": status}
+
+@app.post("/validateHash/{hash_id}/{email}/{name}/{points}")
+def store_hash(hash_id: str, email: str, name: str, points: int):
+    # CHECK HASH BOTO3 GOES HERE
+    check_stat = awsManager.checkHash(hash_id)
+
     print(hash_id)
-    return {"hash_id": hash_id, "email": email, "name": name, "points": points }
+    status = ""
+    # Indicated a pass
+    if (check_stat == 0):
+        ins_stat = awsManager.insertPlayerItem(points, email, name)
+        rem_stat = awsManager.removeHash(hash_id)
+        if rem_stat == 0 and ins_stat == 0:
+            status = "Success"
+        else:
+            status = "Failure occurred in a function..."
+    else:
+        print("Hash does not exsist...")
+        status = "Failure"
+
+    return {"status": status}
 
 @app.get("/getScores")
 def get_scores():

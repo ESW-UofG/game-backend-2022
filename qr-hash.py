@@ -4,20 +4,25 @@ import random
 import os
 from dotenv import load_dotenv
 from cryptography.fernet import Fernet
+import requests
+
+
 
 #Loads .env variables
 load_dotenv()
+SECRET_KEY = os.getenv('SECRET')
+print(SECRET_KEY)
 
 points = str(1)
 
 # Generate the random hash - used to prevent players from cheating and using the same QR code
 #hash = random.getrandbits(128)
-hash = points
+hash_start = points
 #hash = str("%032x" % hash)
 
 key = Fernet.generate_key()
 fernet = Fernet(key)
-encMessage = fernet.encrypt(hash.encode())
+encMessage = fernet.encrypt(hash_start.encode())
 
 
 #Get number of points from .env file
@@ -35,3 +40,6 @@ else:
     qr.make(fit=True)
     img = qr.make_image(fill='black', back_color='white')
     img.save('./qr-codes/qrcode.png', quality=95)
+    url = f'http://localhost:8000/storeHash/{encMessage}/{SECRET_KEY}'
+    response = requests.post(url)
+    print(response.json())
