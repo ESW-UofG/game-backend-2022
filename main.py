@@ -4,11 +4,27 @@ from configparser import ConfigParser
 import time
 from dotenv import load_dotenv
 import awsManager
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 SECRET_KEY = os.getenv('SECRET')
 
 app = FastAPI()
+
+# Define the allowed origins
+# origins = [
+#     "http://localhost",
+#     "http://localhost:8080",
+# ]
+
+# Add the CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/")
