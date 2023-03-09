@@ -75,9 +75,7 @@ def store_hash(hash_id: str, email: str, name: str, points: int):
 @app.get("/getScores")
 def get_scores():
     # GET SCORES FROM BOTO3
-
-    # RETURN THE TOP 5 VALUES (MANIPULATE THE PANDAS DF)
-
+    top_five = awsManager.getPlayerScores()
     # RETURN AS JSON
-    return {}
+    return {'top_five': top_five}
 

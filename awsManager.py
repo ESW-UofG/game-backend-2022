@@ -2,6 +2,7 @@ import configparser
 import boto3
 import requests
 from datetime import datetime
+from boto3.dynamodb.conditions import Key, Attr
 
 player_table_name = "players"
 qr_table_name = "qrs"
@@ -116,6 +117,35 @@ def createQRtable():
     print("Table status:", table.table_status)
     return table
 
+
+def getPlayerScores():
+    try:
+        global player_table_name
+        dynamodb = getResourceAndValidate()
+        table = dynamodb.Table(player_table_name)
+        response = table.scan()
+
+        top_five = response['Items']
+
+        while 'LastEvaluatedKey' in response:
+            response = table.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
+            top_five.extend(response['Items'])
+
+        sorted_players = sorted(top_five, key=lambda x: x['points'], reverse=True)[:5]
+
+
+        top_five = []
+        
+        count_players = 0
+        for entry in sorted_players:
+            if (count_players==5):
+                break
+            top_five.append(entry)
+            count_players = count_players + 1
+            
+        return top_five
+    except Exception as e:
+        return e
 
 def insertPlayerItem(points, email, name):
     try:
